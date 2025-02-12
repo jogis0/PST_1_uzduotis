@@ -1,4 +1,4 @@
-package org.example;
+package org.example.uzduotis_1;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
@@ -13,26 +13,30 @@ import java.time.Duration;
 public class Task2 {
     public static void main(String[] args) {
         ChromeDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
         driver.navigate().to("https://demowebshop.tricentis.com/");
 
         driver.findElement(By.xpath("//a[@href='/gift-cards']")).click();
 
-        var giftCards = driver.findElements(By.xpath("//div[@class='product-item']"));
-        var higherThan99GiftCard = giftCards.get(0);
+        //FIXME surasti kortele kur > 99 naudojantis xpath
+//        var giftCards = driver.findElements(By.xpath("//div[@class='product-item']"));
+//        var higherThan99GiftCard = giftCards.get(0);
+//
+//        float price;
+//        for (var giftCard : giftCards) {
+//            price = Float.parseFloat( //Kazkodel visada cia yra pirmo elemento kaina
+//                giftCard.findElement(
+//                        By.xpath(".//span[contains(@class, 'actual-price')]"))
+//                        .getText()
+//            );
+//
+//            if (price > 99)
+//                higherThan99GiftCard = giftCard;
+//        }
+//
+//        higherThan99GiftCard.findElement(By.xpath(".//div[@class='picture']/a")).click();
 
-        float price;
-        for (var giftCard : giftCards) {
-            price = Float.parseFloat( //Kazkodel visada cia yra pirmo elemento kaina
-                giftCard.findElement(
-                        By.xpath(".//span[contains(@class, 'actual-price')]"))
-                        .getText()
-            );
-
-            if (price > 99)
-                higherThan99GiftCard = giftCard;
-        }
-
-        higherThan99GiftCard.findElement(By.xpath(".//div[@class='picture']/a")).click();
+        driver.findElement(By.xpath("//span[contains(@class, 'actual-price') and text() > 99]/ancestor::div[@class='details']/h2[@class='product-title']/a")).click();
 
         driver.findElement(By.xpath("//input[@class='recipient-name']")).sendKeys("test name");
         driver.findElement(By.xpath("//input[@class='sender-name']")).sendKeys("test name");
@@ -62,8 +66,8 @@ public class Task2 {
 
         driver.findElement(By.xpath("//input[@id='add-to-cart-button-71']")).click();
 
-        WebDriverWait waitJlr = new WebDriverWait(driver, Duration.ofSeconds(5));
-        waitJlr.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[@class='content']")));
+        new WebDriverWait(driver, Duration.ofSeconds(5))
+                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[@class='content']")));
 
         driver.findElement(By.xpath("//input[@id='add-to-wishlist-button-71']")).click();
 
@@ -76,7 +80,9 @@ public class Task2 {
         driver.findElement(By.xpath("//input[@name='addtocartbutton']")).click();
 
         var totalQty = driver.findElement(By.xpath("//span[@class='cart-qty']"));
-        Assert.assertEquals(totalQty.getText(), "(10026)");
+        new WebDriverWait(driver, Duration.ofSeconds(5))
+                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[@class='cart-qty']")));
+        Assert.assertEquals("(10026)", totalQty.getText());
 
         driver.quit();
     }

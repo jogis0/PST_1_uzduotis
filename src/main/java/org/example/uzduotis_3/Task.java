@@ -101,7 +101,7 @@ public class Task {
         var confirm = confirmWait.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@class='button-1 confirm-order-next-step-button']")));
         confirm.click();
 
-        Assert.assertTrue(driver.findElement(By.xpath("//strong[contains(text(), 'successfully')]")).isDisplayed());
+        Assert.assertFalse(driver.findElements(By.xpath("//div[@class='section order-completed']")).isEmpty());
 
         driver.quit();
     }
@@ -133,6 +133,7 @@ public class Task {
         driver.findElement(By.xpath("//button[@id='checkout']")).click();
 
         var addrSelectElement = driver.findElements(By.xpath("//select[@id='billing-address-select']"));
+        // FIXME Galimai addrSelectElement visada tuscias kazkodel
         if (addrSelectElement.isEmpty()) {
             var countrySelectElement = driver.findElement(By.xpath("//select[@id='BillingNewAddress_CountryId']"));
             var countrySelect = new Select(countrySelectElement);
@@ -159,7 +160,7 @@ public class Task {
         var confirm = confirmWait.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@class='button-1 confirm-order-next-step-button']")));
         confirm.click();
 
-        Assert.assertTrue(driver.findElement(By.xpath("//strong[contains(text(), 'successfully')]")).isDisplayed());
+        Assert.assertFalse(driver.findElements(By.xpath("//div[@class='section order-completed']")).isEmpty());
 
         driver.quit();
     }

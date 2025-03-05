@@ -13,7 +13,7 @@ public class Task2 {
     public static void main(String[] args) {
         ChromeDriver driver = new ChromeDriver();
         driver.manage().window().maximize();
-        driver.navigate().to("https://web.archive.org/web/20240112153757/https://demoqa.com/");
+        driver.navigate().to("https://demoqa.com/");
 
         driver.findElement(By.xpath("//div[@class='card-body']/h5[text()='Elements']")).click();
         driver.findElement(By.xpath("//span[text()='Web Tables']")).click();

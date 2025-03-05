@@ -4,6 +4,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -20,7 +21,9 @@ public class Test3 {
 
     @BeforeClass
     public static void setUpUser() {
-        ChromeDriver driver = new ChromeDriver();
+        var options = new ChromeOptions();
+        options.addArguments("--headless=new");
+        ChromeDriver driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         driver.navigate().to(URL);
         driver.findElement(By.xpath("//a[@href='/login']")).click();
@@ -44,7 +47,9 @@ public class Test3 {
 
     @Test
     public void test1() {
-        ChromeDriver driver = new ChromeDriver();
+        var options = new ChromeOptions();
+        options.addArguments("--headless=new");
+        ChromeDriver driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         driver.navigate().to(URL);
 
@@ -106,7 +111,9 @@ public class Test3 {
 
     @Test
     public void test2() {
-        ChromeDriver driver = new ChromeDriver();
+        var options = new ChromeOptions();
+        options.addArguments("--headless=new");
+        ChromeDriver driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         driver.navigate().to(URL);
 

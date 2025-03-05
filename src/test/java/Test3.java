@@ -45,8 +45,7 @@ public class Test3 {
         driver.quit();
     }
 
-    @Test
-    public void test1() {
+    private void testCase(String fileName) {
         var options = new ChromeOptions();
         options.addArguments("--headless=new");
         ChromeDriver driver = new ChromeDriver(options);
@@ -61,9 +60,9 @@ public class Test3 {
         driver.findElement(By.xpath("//li[@class='inactive']/a[@href='/digital-downloads']")).click();
 
         try {
-            Files.readAllLines(Path.of("src/main/java/org/example/uzduotis_3/data1.txt"))
+            Files.readAllLines(Path.of("src/main/java/org/example/uzduotis_3/" + fileName))
                     .forEach(x -> driver.findElement(
-                            By.xpath(String.format("//a[text()='%s']/ancestor::div[@class='details']//input[@value='Add to cart']", x.strip()))
+                                    By.xpath(String.format("//a[text()='%s']/ancestor::div[@class='details']//input[@value='Add to cart']", x.strip()))
                             ).click()
                     );
         } catch (IOException e) {
@@ -108,67 +107,13 @@ public class Test3 {
 
         driver.quit();
     }
+    @Test
+    public void test1() {
+        testCase("data1.txt");
+    }
 
     @Test
     public void test2() {
-        var options = new ChromeOptions();
-        options.addArguments("--headless=new");
-        ChromeDriver driver = new ChromeDriver(options);
-        driver.manage().window().maximize();
-        driver.navigate().to(URL);
-
-        driver.findElement(By.xpath("//a[@href='/login']")).click();
-        driver.findElement(By.xpath("//input[@id='Email']")).sendKeys(email);
-        driver.findElement(By.xpath("//input[@id='Password']")).sendKeys(password);
-        driver.findElement(By.xpath("//input[@value='Log in']")).click();
-
-        driver.findElement(By.xpath("//li[@class='inactive']/a[@href='/digital-downloads']")).click();
-
-        try {
-            Files.readAllLines(Path.of("src/main/java/org/example/uzduotis_3/data2.txt"))
-                    .forEach(x -> driver.findElement(
-                                    By.xpath(String.format("//a[text()='%s']/ancestor::div[@class='details']//input[@value='Add to cart']", x.strip()))
-                            ).click()
-                    );
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        driver.findElement(By.xpath("//a[@href='/cart']")).click();
-        driver.findElement(By.xpath("//input[@id='termsofservice']")).click();
-        driver.findElement(By.xpath("//button[@id='checkout']")).click();
-
-        var addrSelectElement = driver.findElements(By.xpath("//select[@id='billing-address-select']"));
-        if (addrSelectElement.isEmpty()) {
-            var countrySelectElement = driver.findElement(By.xpath("//select[@id='BillingNewAddress_CountryId']"));
-            var countrySelect = new Select(countrySelectElement);
-            countrySelect.selectByVisibleText("Lithuania");
-            driver.findElement(By.xpath("//input[@id='BillingNewAddress_City']")).sendKeys("City");
-            driver.findElement(By.xpath("//input[@id='BillingNewAddress_Address1']")).sendKeys("Example address 1");
-            driver.findElement(By.xpath("//input[@id='BillingNewAddress_ZipPostalCode']")).sendKeys("12345");
-            driver.findElement(By.xpath("//input[@id='BillingNewAddress_PhoneNumber']")).sendKeys("012345678");
-        }
-        var continueWait1 = new WebDriverWait(driver, Duration.ofSeconds(5));
-        var continue1 = continueWait1.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@class='button-1 new-address-next-step-button']")));
-        continue1.click();
-
-        var continueWait2 = new WebDriverWait(driver, Duration.ofSeconds(5));
-        var continue2 = continueWait2.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@class='button-1 payment-method-next-step-button']")));
-        continue2.click();
-
-
-        var continueWait3 = new WebDriverWait(driver, Duration.ofSeconds(5));
-        var continue3 = continueWait3.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@class='button-1 payment-info-next-step-button']")));
-        continue3.click();
-
-        var confirmWait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        var confirm = confirmWait.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@class='button-1 confirm-order-next-step-button']")));
-        confirm.click();
-
-        new WebDriverWait(driver, Duration.ofSeconds(5)).until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@class='section order-completed']")));
-
-        var elementNotFound = driver.findElements(By.xpath("//strong[contains(text(), 'Your order has been successfully processed!')]")).isEmpty();
-        Assert.assertFalse(elementNotFound);
-
-        driver.quit();
+        testCase("data2.txt");
     }
 }

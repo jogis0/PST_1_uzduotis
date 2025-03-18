@@ -49,11 +49,12 @@ public class Test4 {
         driver.findElement(By.xpath("//input[@id='AddProductReview_Title']")).sendKeys(RandomStringUtils.randomAlphabetic(5));
         driver.findElement(By.xpath("//textarea[@id='AddProductReview_ReviewText']")).sendKeys(RandomStringUtils.randomAlphabetic(20));
         driver.findElement(By.xpath("//input[@name='add-review']")).click();
-        driver.findElement(By.xpath("//div[@class='product-review-item'][.//span[@class='user'][contains(., '" + firstName +"')]][last()]//span[@class='vote' and text()='Yes']")).click();
+        driver.findElement(By.xpath("//div[@class='product-review-item'][.//span[@class='user'][contains(., '" + firstName + "')]][last()]//span[@class='vote' and text()='Yes']")).click();
 
         new WebDriverWait(driver, Duration.ofSeconds(5))
-                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='product-review-item'][.//span[@class='user'][contains(., '" + firstName +"')]][last()]//span[@class='vote' and text()='Yes']/ancestor::div[@class='product-review-helpfulness']/span[@class='result']")));
-        var result = driver.findElement(By.xpath("//div[@class='product-review-item'][.//span[@class='user'][contains(., '" + firstName +"')]][last()]//span[@class='vote' and text()='Yes']/ancestor::div[@class='product-review-helpfulness']/span[@class='result']")).getText();
+                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='product-review-item'][.//span[@class='user'][contains(., '" + firstName + "')]][last()]//span[@class='vote' and text()='Yes']/ancestor::div[@class='product-review-helpfulness']/span[@class='result']")));
+        var result = driver.findElement(By.xpath("//div[@class='product-review-item'][.//span[@class='user'][contains(., '" + firstName + "')]][last()]//span[@class='vote' and text()='Yes']/ancestor::div[@class='product-review-helpfulness']/span[@class='result']")).getText();
         Assert.assertEquals("You cannot vote for your own review", result);
+        driver.quit();
     }
 }
